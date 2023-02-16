@@ -19,7 +19,7 @@ using namespace std;
 const string SNAKE_HEAD   = "0";
 const string SNAKE_BODY   = "+";
 const string FRUIT_CHAR   = "@";
-const int HEIGHT          = 40;
+const int HEIGHT          = 30;
 const int WIDTH           = 40;
 const int SNAKE_X         = 20;
 const int SNAKE_Y         = 20;
@@ -189,10 +189,10 @@ public:
         fill_grid();
     }
 
-    void write_to_grid(Position element) {
-        int x      = element.x;
-        int y      = element.y;
-        grid[y][x] = "@";
+    void write_to_grid(Position point, const string &element) {
+        int x      = point.x;
+        int y      = point.y;
+        grid[y][x] = element;
     }
 
     void write_to_grid(vector<Position> element) {
@@ -266,18 +266,18 @@ public:
         exit(0);
     }
 
-    void move_snake() {
+    void loop() {
         int input;
         int new_dir = ERR;
         int curr_dir;
 
         vector<Position> snake_pos = snake.snake_pos();
         write_to_grid(snake_pos);
-        Position new_fruit = spawn_fruit();
-        write_to_grid(new_fruit);
+        Position new_fruit_pos = spawn_fruit();
+        write_to_grid(new_fruit_pos, FRUIT_CHAR);
         draw();
 
-        while ((input = getch()) != 'e') {
+        while ((input = getch()) != 'q') {
             if (input != ERR) {
                 curr_dir = new_dir;
                 new_dir  = input;
@@ -290,11 +290,11 @@ public:
                     end_game(snake.snake_pos().size() - 1);
                 }
                 write_to_grid(snake.snake_pos());
-                write_to_grid(new_fruit);
+                write_to_grid(new_fruit_pos, FRUIT_CHAR);
 
-                if (fruit_eaten(new_fruit)) {
+                if (fruit_eaten(new_fruit_pos)) {
                     snake.grow();
-                    new_fruit = spawn_fruit();
+                    new_fruit_pos = spawn_fruit();
                 }
                 draw();
             }
@@ -325,7 +325,6 @@ public:
     }
 
     void draw() {
-        clear();
         std::string output_buffer;
         for (const auto& row : grid) {
             for (const auto& cell : row) {
@@ -333,30 +332,16 @@ public:
             }
             output_buffer += "\n";
         }
-        printw(output_buffer.c_str());
+        mvprintw(0, 0, output_buffer.c_str());
         attron(A_BOLD);
-        mvprintw(20, 50, "Snake Game");
-        mvprintw(21, 50, "By: Jonathan");
-        mvprintw(23, 50, "Score: ");
-        mvprintw(23, 58, to_string(snake.snake_pos().size() - 1).c_str());
+        mvprintw(HEIGHT/2, WIDTH + 9, "Snake Game");
+        mvprintw(HEIGHT/2 + 1, WIDTH + 9, "By: Jonathan (q to quit)");
+        mvprintw(HEIGHT/2 + 2, WIDTH + 9, "(WASD or arrow keys to change direction)");
+        mvprintw(HEIGHT/2 + 4, WIDTH + 9, "Score: ");
+        mvprintw(HEIGHT/2 + 5, WIDTH + 9, to_string(snake.snake_pos().size() - 1).c_str());
         attroff(A_BOLD);
         refresh();
     }
-
-    // void draw() {
-    //     clear();
-    //     for (const auto& i : grid) {
-    //         for (const auto& j : i) printw(j.c_str());
-    //         printw("\n");
-    //     }
-    //     attron(A_BOLD);
-    //     mvprintw(20, 50, "Snake Game");
-    //     mvprintw(21, 50, "By: Jonathan");
-    //     mvprintw(23, 50, "Score: ");
-    //     mvprintw(23, 58, to_string(snake.snake_pos().size() - 1).c_str());
-    //     attroff(A_BOLD);
-    //     refresh();
-    // }
 
 private:
     void fill_grid() {
@@ -373,12 +358,6 @@ private:
     Snake snake;
 };
 
-void draw(const vector<Position>& thing) {
-    clear();
-    for (const Position& p : thing) mvprintw(p.y, p.x, "0");
-    refresh();
-}
-
 int main() {
     initscr();
     noecho();
@@ -387,12 +366,10 @@ int main() {
     keypad(stdscr, true);
     nodelay(stdscr, true);
 
-    Grid game(HEIGHT, WIDTH);
+    Grid game(WIDTH, HEIGHT);
     game.spawn_snake(20, 20, 1);
-    game.move_snake();
+    game.loop();
 
-    while (true) {
-    }
     getch();
     endwin();
 }
