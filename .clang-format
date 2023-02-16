@@ -1,0 +1,12 @@
+BasedOnStyle: Google
+AccessModifierOffset: -4
+BreakBeforeBraces: Attach
+IndentWidth: 4
+AccessModifierOffset: -4
+ColumnLimit: 150
+AlignConsecutiveAssignments: true
+AlignOperands: true
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: true
+SpacesBeforeParens: Never
+
