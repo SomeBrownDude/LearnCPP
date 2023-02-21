@@ -16,15 +16,16 @@
 #include <vector>
 using namespace std;
 
-const string SNAKE_HEAD   = "0";
-const string SNAKE_BODY   = "+";
-const string FRUIT_CHAR   = "@";
-const int HEIGHT          = 30;
-const int WIDTH           = 40;
-const int SNAKE_X         = WIDTH / 2;
-const int SNAKE_Y         = HEIGHT / 2;
-const int SNAKE_START_LEN = 1;
-const int DELAY           = 50;  // Snake speed (lower = faster, 90 seems to be good speed)
+const string SNAKE_HEAD    = "0";
+const string SNAKE_BODY    = "+";
+const string FRUIT_CHAR    = "@";
+const int HEIGHT           = 30;
+const int WIDTH            = 40;
+const int SNAKE_X          = WIDTH / 2;
+const int SNAKE_Y          = HEIGHT / 2;
+const int SNAKE_START_LEN  = 1;
+const int DELAY            = 90;  // Snake speed (lower = faster, 90 seems to be good speed)
+const vector<int> CONTROLS = {'w', 'a', 's', 'd', KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_LEFT, 'q'};  // available inputs
 
 int rnum(int min, int max) {
     std::random_device rd;      // random device engine, usually based on /dev/random on Unix-like systems
@@ -129,9 +130,9 @@ public:
     }
 
     bool hit_wall() {
-        if (segments[0].x == 0 || segments[0].x == WIDTH)
+        if (segments[0].x == 0 || segments[0].x == WIDTH - 1)
             return true;
-        if (segments[0].y == 0 || segments[0].y == HEIGHT)
+        if (segments[0].y == 0 || segments[0].y == HEIGHT - 1)
             return true;
 
         return false;
@@ -188,7 +189,7 @@ public:
 
     void loop() {
         int input;
-        int curr_dir;
+        int curr_dir = ERR;
         Position new_fruit_pos = spawn_fruit();
 
         write_to_grid(snake.snake_pos());
@@ -198,7 +199,8 @@ public:
         while (true) {  // game loop
             input = getch();
 
-            if (!is_opposite(curr_dir, input) && input != ERR)
+            // checks that input is available and sets curr_dir (opposite dir is not possible)
+            if (!is_opposite(curr_dir, input) && find(CONTROLS.begin(), CONTROLS.end(), input) != CONTROLS.end())
                 curr_dir = input;
 
             snake.move_once(curr_dir);
@@ -221,7 +223,6 @@ public:
     void clear_grid() {
         vector<vector<string>> temp(HEIGHT, vector<string>(WIDTH, " "));
         grid = temp;
-
         fill_grid();
     }
 
@@ -259,7 +260,7 @@ public:
         endwin();
 
         bool newhigh     = save_score(score);
-        string final_msg = "Game over! \n\n\n\nScore: " + to_string(snake.snake_pos().size() - 1) + "\n\n\n\nHIGH SCORE: ";
+        string final_msg = "\nGame over! \n\n\n\nScore: " + to_string(snake.snake_pos().size() - 1) + "\n\n\n\nHIGH SCORE: ";
         final_msg += to_string(get_highscore("hscores.txt"));
 
         if (newhigh)
