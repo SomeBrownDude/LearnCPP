@@ -4,7 +4,7 @@ LDFLAGS=-lncurses
 # OBJS = Snake.o	
 # TARGET = Snake
 
-OBJS = Clean.o
+OBJS = Clean.o #wildcard for all cpp files
 TARGET = Clean
 
 OTHERFLAGS = -O2
@@ -20,4 +20,5 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+
 

@@ -99,6 +99,7 @@ Things I learned with this project:
         clear() = clear() screen. (Use sparingly, calling clear() and reprinting lots can lead to perf issues
         *better to just overwrite the terminal and refresh();
         refresh() = refresh, have to do this every time you want new drawing to appear on terminal
+        keypad(screen, true) = gets special character inputs (like arrow keys)
 
     Better Comments: 
         // !
@@ -106,11 +107,19 @@ Things I learned with this project:
         // todo:
         // ?
         OP for comments
+
+    JetBrains Mono = best font for coding
+    
+    How to fix laggy WSL Terminal: 
+        Shutdown WSL in Windows powershell (command): 
+            wsl --shutdown 
     
     Game libraries to learn: 
         SFML?
         SDl?
         3D libraries?
+
+
     
 
 

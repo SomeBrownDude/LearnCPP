@@ -117,7 +117,7 @@ public:
 
     bool check_head_hit_body() {
         for (int i = 1; i < segments.size(); i++) {
-            if (segments[0].x == segments[i].x && segments[0].y == segments[i].y)
+            if (segments[0] == segments[i])
                 return true;
         }
         return false;
@@ -306,8 +306,8 @@ public:
         mvprintw(HEIGHT / 2, WIDTH + 9, "Snake Game");
         mvprintw(HEIGHT / 2 + 1, WIDTH + 9, "By: Jonathan (q to quit)");
         mvprintw(HEIGHT / 2 + 2, WIDTH + 9, "(WASD or arrow keys to change direction)");
-        mvprintw(HEIGHT / 2 + 4, WIDTH + 9, "Score: ");
-        mvprintw(HEIGHT / 2 + 5, WIDTH + 9, to_string(snake.snake_pos().size() - 1).c_str());
+        mvprintw(HEIGHT / 2 + 5, WIDTH + 9, "Score: ");
+        mvprintw(HEIGHT / 2 + 6, WIDTH + 9, to_string(snake.snake_pos().size() - 1).c_str());
         attroff(A_BOLD);
         refresh();
     }
