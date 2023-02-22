@@ -233,17 +233,7 @@ int reversible(int n) {
         if (i % 10 == 0)
             continue;
 
-        int 
-        /*
-    High Level instructions for Wordle game:
-    1. get user input
-    2. pick random word from word list
-    3. iterate through each char and tell user using colors whether each char in their input
-        is in the random word and whether it is in the correct place
-    4. keep getting guesses (until 6 guesses or the user gets the right word)
-    5. save user data and print an exit message
-*/
-        rnum = rev_num(i);
+        int rnum = rev_num(i);
         if (is_odd_digits(i + rnum))
             res++;
     }
@@ -309,8 +299,6 @@ long long greatest_product(string s) {
     return greatest;
 }
 
-class thing {};
-
 // prob 9:
 int pythagorean_triplet_product(int limit) {
     for (int n = 1; n <= limit; n++) {
@@ -356,21 +344,6 @@ long long greatest_product_in_grid(string s) {
         cout << endl;
     }
     return 0;
-
-    //     long long greatest = 1;
-
-    //     for (int i = 0; i + 4 < digits[i].size(); i++) {
-    //         long long prod = 1;
-    //         for (int k = i; k <= i + 4; k++) {
-    //             prod *= digits[k];
-    //         }
-    //         if (prod > greatest)
-    //             greatest = prod;
-    //     }
-
-    //     for (int i = 0; i + 4 < digits)
-
-    //     return greatest;
 }
 
 unsigned long long summation(int n) {
@@ -395,6 +368,16 @@ unsigned long long highly_divisible_triangle_number(int divisors) {
     }
     return -1;
 }
+
+/*
+    High Level instructions for Wordle game:
+    1. get user input
+    2. pick random word from word list
+    3. iterate through each char and tell user using colors whether each char in their input
+        is in the random word and whether it is in the correct place
+    4. keep getting guesses (until 6 guesses or the user gets the right word)
+    5. save user data and print an exit message
+*/
 
 int main(){
     cout << highly_divisible_triangle_number(500) << endl;
