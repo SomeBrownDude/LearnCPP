@@ -1,15 +1,16 @@
+#include <stdio.h>
+
 #include <algorithm>
 #include <chrono>
 #include <climits>
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <thread>
 #include <vector>
-#include <cstdlib>
-#include <stdio.h>
 using namespace std;
 
 // Sum of 3/5 multiples: Prob: 1
@@ -232,7 +233,17 @@ int reversible(int n) {
         if (i % 10 == 0)
             continue;
 
-        int rnum = rev_num(i);
+        int 
+        /*
+    High Level instructions for Wordle game:
+    1. get user input
+    2. pick random word from word list
+    3. iterate through each char and tell user using colors whether each char in their input
+        is in the random word and whether it is in the correct place
+    4. keep getting guesses (until 6 guesses or the user gets the right word)
+    5. save user data and print an exit message
+*/
+        rnum = rev_num(i);
         if (is_odd_digits(i + rnum))
             res++;
     }
@@ -283,8 +294,7 @@ int nthPrime(int n) {
 // prob 8:
 long long greatest_product(string s) {
     vector<int> digits;
-    for (char c : s) 
-        digits.push_back(c - '0');
+    for (char c : s) digits.push_back(c - '0');
 
     long long greatest = 1;
 
@@ -292,30 +302,101 @@ long long greatest_product(string s) {
         long long prod = 1;
         for (int k = i; k <= i + 12; k++) {
             prod *= digits[k];
-        }   
-        if (prod > greatest) greatest = prod;
+        }
+        if (prod > greatest)
+            greatest = prod;
     }
     return greatest;
 }
 
-// prob 9: 
+class thing {};
+
+// prob 9:
+int pythagorean_triplet_product(int limit) {
+    for (int n = 1; n <= limit; n++) {
+        for (int m = n; m <= limit; m++) {
+            int a = m * m - n * n;
+            int b = 2 * m * n;
+            int c = m * m + n * n;
+
+            if (a + b + c == limit) {
+                return a * b * c;
+            }
+        }
+    }
+    return -1;
+}
+
+// prob 10:
 unsigned long long sum_of_primes(int n) {
     unsigned long long sum = 0;
-    for(int i = 1; i <= n; i++)  {
-        if(isPrime(i)) sum += i;
+    for (int i = 1; i <= n; i++) {
+        if (isPrime(i))
+            sum += i;
     }
     return sum;
 }
 
-class thing {};
+// prob 11:
+long long greatest_product_in_grid(string s) {
+    vector<vector<int>> digits;
+    for (char c : s) {
+        vector<int> temp;
+        temp.push_back(c);
+        if (c == '\n') {
+            digits.push_back(temp);
+            temp.clear();
+        }
+    }
 
-// int pythagorean_triplet_produce(int n) {
+    for (auto &i : digits) {
+        for (auto n : i) {
+            cout << n << " ";
+        }
+        cout << endl;
+    }
+    return 0;
 
-// }
+    //     long long greatest = 1;
 
+    //     for (int i = 0; i + 4 < digits[i].size(); i++) {
+    //         long long prod = 1;
+    //         for (int k = i; k <= i + 4; k++) {
+    //             prod *= digits[k];
+    //         }
+    //         if (prod > greatest)
+    //             greatest = prod;
+    //     }
 
-int main() {
-    thing a;
-    
-    cout << u8"\u26AB" << endl;
-}       
+    //     for (int i = 0; i + 4 < digits)
+
+    //     return greatest;
+}
+
+unsigned long long summation(int n) {
+    int sum = 0;
+    for(unsigned long long i = 1; i <= n; i++) {
+        sum += i;
+    }
+    return sum;
+}
+
+// prob 12:
+unsigned long long highly_divisible_triangle_number(int divisors) {
+    for (unsigned long long i = 1;; i++) {
+        int num = (i * (i + 1)) / 2; // summation from 1... num
+        int div_count = 0;
+
+        for (int j = 1; j <= sqrt(num); j++) 
+            if (num % j == 0) div_count += 2;
+        
+        if (div_count >= divisors)
+            return num;
+    }
+    return -1;
+}
+
+int main(){
+    cout << highly_divisible_triangle_number(500) << endl;
+}
+
